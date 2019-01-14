@@ -1,0 +1,50 @@
+body {
+  background-color: #21501c;
+  display:flex;
+  margin:auto;
+  justify-content: center
+
+}
+header {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button {
+  display: flex;
+  font-size: 25px;
+  margin: 20px;
+  font-family: cursive;
+  border-radius: 15px;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+
+h1 {
+  font-family: cursive;
+  font-size: 60px;
+  margin:auto;
+}
+p,h3 {
+  margin:auto;
+}
+
+button:hover {
+  background-color: #ed6a68;
+  transform: scale(1.1);
+}
+
+img {
+  margin: 20px;
+  font-size: 25px;
+}
+img:hover {
+  transform: scale(1.1);
+}
+input {
+  width:200px;
+  margin:auto;
+  text-align: center;
+}
