@@ -32,8 +32,9 @@ class App extends Component {
   }
 
   handleDrawClick = () => {
+    let count = (this.state.currentDeckUrls.length >= 2) ? 1 : 2;
     axios
-      .get(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/draw/?count=2`)
+      .get(`https://deckofcardsapi.com/api/deck/${this.state.deck_id}/draw/?count=${count}`)
       .then(res => {
         let cardsArr = res.data.cards;
         let oldToNewDeck = this.state.currentDeckUrls;
@@ -52,11 +53,10 @@ class App extends Component {
 
   displayCurrentDeck = () => {
     let currentDeckUrls = this.state.currentDeckUrls;
-    return currentDeckUrls.map(url => {
-      return <img alt="card" src={url}></img>
+    return currentDeckUrls.map((url,i) => {
+      return <img key={i} alt="card" src={url}></img>
       })
     }
-
 
   render() {
     let {deck_id, cards} = this.state
@@ -83,12 +83,12 @@ class App extends Component {
             <div id="game">
               <h1>Blackjack</h1>
               <p>Deck id: {deck_id}</p>
-              <div id="cardImgs">
-                {this.displayCurrentDeck()}
-              </div>
               <span>
                 <button onClick={this.handleDrawClick}>Hit me!</button>
               </span>
+              <div id="cardImgs">
+                {this.displayCurrentDeck()}
+              </div>
             </div>
           </div>
         )
@@ -97,3 +97,8 @@ class App extends Component {
 }
 
 export default App;
+
+//add game logic for above 21 - BUST!
+// function refreshPage(){
+//    window.location.reload();
+//}

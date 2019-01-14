@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #282c34;
+  background: linear-gradient(to bottom, #001b04 0%,#125e10 100%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,5 +22,5 @@ div#game {
 }
 
 div#game img {
-  height: 200px;
+  height: 150px;
 }
