@@ -39,7 +39,6 @@ class App extends Component {
   };
 
   existingDeck = () => {
-    console.log(this.state.deckID);
     let cardState = [...this.state.cards];
     axios
       .get(
@@ -84,33 +83,43 @@ class App extends Component {
       .catch(error => {
         console.log("Error");
       });
-    console.log(cardState);
-    console.log(this.state.deckID);
   };
 
   render() {
     const { firstPage, deckID, cards } = this.state;
-    if (firstPage === true) {
+    if (firstPage) {
       return (
         <div className="App">
-          <h1>Blackjack</h1>
+          <img
+            src="https://www.shareboston.org/wp-content/uploads/2018/09/Blackjack.jpg"
+            alt=""
+            className="logo"
+          />
+          <br />
           <button onClick={this.newDeck}>Generate New Deck</button>
           <p>Input Existing Deck</p>
           <input type="text" value={deckID} onChange={this.updateInputValue} />
+          <br />
+          <br />
           <button onClick={this.existingDeck}>Generate Existing Deck</button>
         </div>
       );
     } else {
       return (
         <div className="App">
-          <h1>Blackjack</h1>
+          <img
+            src="https://www.shareboston.org/wp-content/uploads/2018/09/Blackjack.jpg"
+            alt=""
+            className="logo"
+          />
+          <br />
           <p>Deck ID: {deckID}</p>
+          <button onClick={this.drawCard}>Hit me!</button>
+          <br />
           <br />
           {cards.map(image => (
             <Cards source={image} key={image} />
           ))}
-          <br />
-          <button onClick={this.drawCard}>Hit me!</button>
         </div>
       );
     }
