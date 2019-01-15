@@ -15,6 +15,7 @@ class App extends React.Component {
       preGameMenu: null,
       imgURL: '',
       clickDraw: false,
+      clickHome: false,
     }
 
     this.handleDraw = this.handleDraw.bind(this)
@@ -22,18 +23,36 @@ class App extends React.Component {
 
   handleDraw = (event) => {
     const {clickDraw} = this.state;
-      this.setState ({
-        clickDraw: true
-      })
+    this.setState ({
+      clickDraw: true,
+      clickHome: false
+    })
 
   }
 
-  render() {
+  handleHome = (event) => {
+    const {clickHome} = this.state;
+    this.setState ({
+      clickHome: true,
+      clickDraw: false
+    })
+  }
 
-    if (this.state.clickDraw) {
+  render() {
+    const {clickDraw, clickHome} = this.state
+
+    if (clickHome && clickDraw){
+      return (
+      <React.Fragment>
+        <Menu handleDraw={this.handleDraw} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+
+      </React.Fragment>
+      )
+
+    } else if (clickDraw) {
       return(
         <React.Fragment>
-            <Hand />
+          <Hand handleHome={this.handleHome}/>
         </React.Fragment>
       )
 
