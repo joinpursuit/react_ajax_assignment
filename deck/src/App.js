@@ -8,7 +8,9 @@ class App extends Component {
     this.state = {
       deck_id: "",
       cards: "",
-      currentDeckUrls: []
+      currentDeckUrls: [],
+      currentDeckValues: [],
+      accValue: 0
     }
   }
 
@@ -38,13 +40,19 @@ class App extends Component {
       .then(res => {
         let cardsArr = res.data.cards;
         let oldToNewDeck = this.state.currentDeckUrls;
+        let oldToNewValues = this.state.currentDeckValues;
         for (let i = 0; i < cardsArr.length; i++) {
           oldToNewDeck.push(cardsArr[i].image)
+          oldToNewValues.push(cardsArr[i].value)
         }
+        let valueSum = this.calcValue(oldToNewValues)
         this.setState({
           cards: cardsArr,
-          currentDeckUrls: oldToNewDeck
+          currentDeckUrls: oldToNewDeck,
+          currentDeckValues: oldToNewValues,
+          accValue: valueSum
         })
+        console.log("value:",this.state.accValue)
       })
       .catch(err =>{
         console.log(err)
@@ -58,8 +66,35 @@ class App extends Component {
       })
     }
 
+  calcValue = (cards) => {
+    let calculated = cards.map(valueStr => {
+         if (['KING','QUEEN','JACK'].includes(valueStr)) {
+            return 10;
+          } else if (valueStr === 'ACE') {
+            return 1;
+          } else {
+            return parseInt(valueStr);
+        }
+       })
+       .reduce((sum, valueInt) => {
+         return sum + valueInt;
+       })
+     //output: sum of integers
+     return calculated;
+  }
+
+  startNewGame = () => {
+    this.setState({
+      deck_id: "",
+      cards: "",
+      currentDeckUrls: [],
+      currentDeckValues: [],
+      accValue: 0
+    })
+  }
+
   render() {
-    let {deck_id, cards} = this.state
+    let {deck_id, cards, accValue } = this.state
       if (!cards) {
         return (
           <div className="App">
@@ -82,10 +117,19 @@ class App extends Component {
           <div className="App">
             <div id="game">
               <h1>Blackjack</h1>
-              <p>Deck id: {deck_id}</p>
+              <p>Deck id: {deck_id} | Hand Value: {accValue}</p>
               <span>
-                <button onClick={this.handleDrawClick}>Hit me!</button>
+                <button onClick={
+                    accValue <= 21 ?
+                    this.handleDrawClick :
+                    this.startNewGame }>
+                    {accValue < 21 ? "Hit me!" : "NEW GAME"}
+                  </button>
               </span>
+              <div id="gameOver">
+                <h1>{accValue > 21 ? "BUST!" : ""}</h1>
+                <h1>{accValue === 21 ? "BLACKJACK!" : ""}</h1>
+              </div>
               <div id="cardImgs">
                 {this.displayCurrentDeck()}
               </div>
