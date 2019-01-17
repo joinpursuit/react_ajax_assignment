@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       isLoadding: true,
       cardsDrawn: {},
-      totalValue: 0
+      totalValue: 0,
+      isSolved: false
     }
     this.handleRandomTwo = this.handleRandomTwo.bind(this);
     this.pickOne = this.pickOne.bind(this);
@@ -24,16 +25,17 @@ class App extends Component {
     fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=2')
       .then(response => response.json())
       .then(data => {
-        let temp = 0;
-        let totalInitial = data.cards.map(card => {
+        let totalInitial = 0;
+        data.cards.map(card => {
           let cardValue = isNaN(card.value) ? 1 : parseInt(card.value); 
-            return temp += cardValue;
+          return totalInitial += cardValue;
         });
         this.setState({
           isLoadding: false,
           cardsDrawn: data,
           totalValue: totalInitial
         })
+        // debugger
       })
   }
 
@@ -44,21 +46,28 @@ class App extends Component {
     fetch(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=1`)
       .then(response => response.json())
       .then(data => {
-        // debugger
         newCardsArr.push(data.cards[0]);
         newCardsDrawn.cards = newCardsArr;
         newCardsDrawn.remaining = data.remaining;
-        newTotal = isNaN(data.cards.value) ? 1 : parseInt(data.cards.value);
-        this.setState({
-          cardsDrawn: newCardsDrawn,
-          totalValue: newTotal
-        })
+        newTotal += isNaN(data.cards[0].value) ? 1  : parseInt(data.cards[0].value);
+        // debugger
+        if (newTotal < 21) {
+          this.setState({
+            cardsDrawn: newCardsDrawn,
+            totalValue: newTotal
+          })
+        } else {
+          this.setState({
+            isSolved: true,
+            cardsDrawn: newCardsDrawn,
+            totalValue: newTotal
+          })
+        }
       })
   }
 
   render() {
-    const {isLoadding, cardsDrawn, totalValue}= this.state;
-    // let totalValue = cardsDrawn.cards.map(card => totalValue += card.value);
+    const {isLoadding, cardsDrawn, totalValue,isSolved}= this.state;
     let results;
     if (totalValue > 21) {
       results = <p>You total exceeds 21, You lose the game!</p>;
@@ -75,7 +84,7 @@ class App extends Component {
           <hr /><br />
 
           <button 
-            disabled={cardsDrawn.remaining > 1}
+            disabled={cardsDrawn.remaining > 1 && !isSolved}
             onClick={this.handleRandomTwo}
             > Start with A New Deck
           </button>
@@ -84,10 +93,15 @@ class App extends Component {
           <div>
             <p>Remaining: {cardsDrawn.remaining}</p>
             <p>Deck_ID: {cardsDrawn.deck_id}</p>
-            <button onClick={() => this.pickOne(cardsDrawn.deck_id)}>Hit Me TO 21!</button>
+            <button 
+              disabled={isSolved}
+              onClick={() => this.pickOne(cardsDrawn.deck_id)}
+              >{isSolved ? 'Refresh Page Or Generate A New Deck.' : 'Hit Me TO 21!'}
+            </button><br />
+
             <div className='results'>
               {results}
-            </div>
+            </div><br />
           </div>
           : null }
 
