@@ -22,16 +22,16 @@ class App extends React.Component {
   }
 
   handleDraw = (event) => {
-    const {clickDraw} = this.state;
+    // const {clickDraw} = this.state;
+
     this.setState ({
       clickDraw: true,
       clickHome: false
     })
-
   }
 
   handleHome = (event) => {
-    const {clickHome} = this.state;
+    // const {clickHome} = this.state;
     this.setState ({
       clickHome: true,
       clickDraw: false
@@ -41,27 +41,23 @@ class App extends React.Component {
   render() {
     const {clickDraw, clickHome} = this.state
 
-    if (clickHome && clickDraw){
-      return (
-      <React.Fragment>
-        <Menu handleDraw={this.handleDraw} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
-
-      </React.Fragment>
-      )
-
-    } else if (clickDraw) {
+    if (clickDraw) {
       return(
         <React.Fragment>
           <Hand handleHome={this.handleHome}/>
         </React.Fragment>
       )
-
+    } else if (clickHome && clickDraw){
+      return (
+        <React.Fragment>
+          <Menu handleDraw={this.handleDraw} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+        </React.Fragment>
+      )
     } else {
       return (
-      <React.Fragment>
-      <Menu deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn} handleDraw={this.handleDraw}/>
-
-      </React.Fragment>
+        <React.Fragment>
+          <Menu handleDraw={this.handleDraw} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+        </React.Fragment>
       )
     }
   }
