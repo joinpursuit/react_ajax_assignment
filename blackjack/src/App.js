@@ -49,7 +49,8 @@ class App extends React.Component {
 
   handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      deckId: event.target.value,
     })
     // debugger
   }
@@ -62,7 +63,8 @@ class App extends React.Component {
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
-      console.log(response);
+      console.log('axios response', response);
+      console.log('deckid', this.state.deckId);
 
       this.setState ({
         clickDraw: true,
@@ -77,19 +79,20 @@ class App extends React.Component {
   }
 
   handleJoinGame = (event) => {
-    this.setState ({
-      deckId: event.target.value,
-    })
+    // this.setState ({
+    //   deckId: event.target.value,
+    // })
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
-      console.log(response);
-
+      console.log('axios response', response);
+      console.log('deckid', this.state.deckId);
+// debugger
       this.setState ({
         clickDraw: true,
         clickHome: false,
         cardsRemaining: response.data.remaining,
-        // deckId: event.target.value, //for handleHitMe
+        deckId: this.state.deckId, //for handleHitMe
         imgURL: response.data.cards,
         count: 1,
       })
@@ -102,7 +105,8 @@ class App extends React.Component {
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
-      console.log(response);
+      console.log('axios response', response);
+      console.log('deckid', this.state.deckId);
 
       this.setState ({
         clickDraw: true,
