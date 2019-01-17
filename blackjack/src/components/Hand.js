@@ -10,6 +10,7 @@ export const Hand = ({deckId, imgURL, cardsDrawn, handleHome, handleHitMe}) => {
       <input type='button'onClick={handleHitMe} value='Hit me'/>
       <input type='button' onClick={handleHome} value='Home'/>
       {imgURL}
+
     </React.Fragment>
   )
 }

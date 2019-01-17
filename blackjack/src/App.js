@@ -14,7 +14,7 @@ class App extends React.Component {
       cardsDrawn: [],
       cardsRemaining: [],
       preGameMenu: null,
-      imgURL: '',
+      imgURL: [],
       clickDraw: false,
       clickHome: false,
     }
@@ -42,7 +42,7 @@ class App extends React.Component {
         clickHome: false,
         cardsDrawn: [ ...this.state.cardsDrawn, ...response.data.cards],
         cardsRemaining: response.data.remaining,
-        deckId: response.data.deck_id,
+        deckId: response.data.deck_id, //for handleHitMe
         imgURL: response.data.cards,
       })
 
@@ -52,7 +52,21 @@ class App extends React.Component {
   }
 
   handleHitMe = (event) => {
+    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`
+    axios.get(draw)
+    .then(response => {
+      console.log(response);
 
+      this.setState ({
+        clickDraw: true,
+        clickHome: false,
+        cardsDrawn: [ ...this.state.cardsDrawn, ...response.data.cards],
+        cardsRemaining: response.data.remaining,
+        deckId: response.data.deck_id, //for handleHitMe
+        imgURL: [...this.state.imgURL, ...response.data.cards],
+      })
+    })
+    .catch(error => console.log('Error: ', error))
   }
 
   render() {
@@ -65,10 +79,9 @@ class App extends React.Component {
             handleHome={this.handleHome}
             deckId={this.state.deckId}
             imgURL={this.state.imgURL.map(card => (
-
-              <img key={card.code} src={card.image} alt='' />
-
+              <img key={card.code} src={card.image} alt=''/>
             ))}
+            handleHitMe={this.handleHitMe}
           />
         </React.Fragment>
       )
