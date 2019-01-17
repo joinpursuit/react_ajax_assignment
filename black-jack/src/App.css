@@ -1,0 +1,80 @@
+body {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header {
+  color: red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0px;
+}
+
+.img {
+  width: 300px;
+}
+
+.card-container {
+  flex-wrap: wrap;
+  width: 900px;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://betclick.hs.llnwd.net/e1/pict/Casino/06_Backgrounds/lucky_8_line.jpg");
+}
+
+.cardImg {
+  width: 140px;
+}
+
+.cardImg:hover {
+  width: 160px;
+}
+#button1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#button {
+  width: 90px;
+  background-color: red;
+  margin-top: 15px;
+}
+
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
