@@ -1,41 +1,3 @@
-// import React, { Component } from "react";
-// import axios from "axios";
-//
-// import "./App.css";
-//
-// class App extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       deck_id: ""
-//     };
-//   }
-//
-//   handleGenerateClick = () => {
-//     axios
-//       .get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
-//       .then(res => {
-//         this.setState({
-//           deck_id: res.data.deck_id
-//         });
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   };
-//   render() {
-//     return (
-//       <div className="App">
-//         <h1>Black jack</h1>
-//         <button onClick={this.handleGenerateClick}>Generate Deck</button>
-//         <p>Deck ID: {this.state.deck_id}</p>
-//       </div>
-//     );
-//   }
-// }
-//
-// export default App;
-
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
@@ -68,13 +30,10 @@ class App extends Component {
     const url = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`;
 
     axios.get(url).then(res => {
-      console.log("BEFORE SET STATE", this.state.cards);
-      console.log("RES CARD", res.data.cards);
       this.setState({
         cards: [...this.state.cards, ...res.data.cards],
         remaining: res.data.remaining
       });
-      console.log("AFTER SET STATE", this.state.cards);
     });
   };
 
