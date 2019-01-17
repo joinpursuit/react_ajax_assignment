@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Axios from 'axios'
+import axios from 'axios'
 
 import Menu from './components/Menu'
 import { Hand } from './components/Hand'
@@ -10,8 +10,9 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      deckId: null,
+      deckId: 'new',
       cardsDrawn: [],
+      cardsRemaining: [],
       preGameMenu: null,
       imgURL: '',
       clickDraw: false,
@@ -19,23 +20,39 @@ class App extends React.Component {
     }
 
     this.handleDraw = this.handleDraw.bind(this)
-  }
-
-  handleDraw = (event) => {
-    // const {clickDraw} = this.state;
-
-    this.setState ({
-      clickDraw: true,
-      clickHome: false
-    })
+    this.handleHome = this.handleHome.bind(this)
+    this.handleHitMe = this.handleHitMe.bind(this)
   }
 
   handleHome = (event) => {
-    // const {clickHome} = this.state;
     this.setState ({
       clickHome: true,
       clickDraw: false
     })
+  }
+
+  handleDraw = (event) => {
+    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=2`
+    axios.get(draw)
+    .then(response => {
+      console.log(response);
+
+      this.setState ({
+        clickDraw: true,
+        clickHome: false,
+        cardsDrawn: [ ...this.state.cardsDrawn, ...response.data.cards],
+        cardsRemaining: response.data.remaining,
+        deckId: response.data.deck_id,
+        imgURL: response.data.cards,
+      })
+
+    })
+    .catch(error => console.log('Error: ', error))
+
+  }
+
+  handleHitMe = (event) => {
+
   }
 
   render() {
@@ -44,7 +61,15 @@ class App extends React.Component {
     if (clickDraw) {
       return(
         <React.Fragment>
-          <Hand handleHome={this.handleHome}/>
+          <Hand
+            handleHome={this.handleHome}
+            deckId={this.state.deckId}
+            imgURL={this.state.imgURL.map(card => (
+
+              <img src={card.image} alt='' />
+
+            ))} 
+          />
         </React.Fragment>
       )
     } else if (clickHome && clickDraw){
