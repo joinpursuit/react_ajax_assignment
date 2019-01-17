@@ -66,9 +66,9 @@ class App extends React.Component {
             deckId={this.state.deckId}
             imgURL={this.state.imgURL.map(card => (
 
-              <img src={card.image} alt='' />
+              <img key={card.code} src={card.image} alt='' />
 
-            ))} 
+            ))}
           />
         </React.Fragment>
       )
