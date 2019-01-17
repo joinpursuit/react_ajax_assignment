@@ -10,7 +10,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      deckId: 'new',
+      deckId: '',
       cardsRemaining: [],
       preGameMenu: null,
       imgURL: [],
@@ -25,27 +25,29 @@ class App extends React.Component {
     this.handleHitMe = this.handleHitMe.bind(this)
   }
 
-  handleHome = (event) => {
-    this.setState ({
-      clickHome: true,
-      clickDraw: false,
 
-      deckId: 'new',
-      cardsRemaining: [],
-      preGameMenu: null,
-      imgURL: [],
-      count: 2,
+  componentDidMount = (event) => { //re: secondPage() - Forms homework line 186 and 234
+    axios.get(`https://deckofcardsapi.com/api/deck/new/draw/?count=${this.state.count}`)
+    .then(response => {
+      console.log('axios response', response);
+      console.log('deckid', this.state.deckId);
 
+      this.setState ({
+        cardsRemaining: response.data.remaining,
+        deckId: response.data.deck_id, //for handleHitMe
+      })
     })
+    .catch(error => console.log('Error: ', error))
   }
 
-  homePage = () => { //re: secondPage() - Forms homework line 186 and 234
+  homePage = () => {
     return (
       <React.Fragment>
         <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} handleChange={this.handleChange} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
       </React.Fragment>
     )
   }
+
 
   handleChange = (event) => {
     this.setState({
@@ -55,11 +57,11 @@ class App extends React.Component {
     // debugger
   }
 
-  componentDidMount = (event) => {
-    this.homePage();
-  }
-
   handleNewGame = (event) => {
+    // this.setState ({
+    //   deckId: 'new',
+    // })
+
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
@@ -100,6 +102,19 @@ class App extends React.Component {
     .catch(error => console.log('Error: ', error))
   }
 
+
+  handleHome = (event) => { //reset
+    this.setState ({
+      clickHome: true,
+      clickDraw: false,
+      deckId: '',
+      cardsRemaining: [],
+      preGameMenu: null,
+      imgURL: [],
+      count: 2,
+    })
+    this.componentDidMount()
+  }
 
   handleHitMe = (event) => {
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
