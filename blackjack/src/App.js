@@ -11,12 +11,13 @@ class App extends React.Component {
     super();
     this.state = {
       deckId: 'new',
-      cardsDrawn: [],
+      // cardsDrawn: [],
       cardsRemaining: [],
       preGameMenu: null,
       imgURL: [],
       clickDraw: false,
       clickHome: false,
+      count: 2,
     }
 
     this.handleDraw = this.handleDraw.bind(this)
@@ -32,7 +33,7 @@ class App extends React.Component {
   }
 
   handleDraw = (event) => {
-    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=2`
+    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
       console.log(response);
@@ -40,10 +41,11 @@ class App extends React.Component {
       this.setState ({
         clickDraw: true,
         clickHome: false,
-        cardsDrawn: [ ...this.state.cardsDrawn, ...response.data.cards],
+        // cardsDrawn: [ ...this.state.cardsDrawn, ...response.data.cards],
         cardsRemaining: response.data.remaining,
         deckId: response.data.deck_id, //for handleHitMe
         imgURL: response.data.cards,
+        count: 1,
       })
 
     })
@@ -52,7 +54,7 @@ class App extends React.Component {
   }
 
   handleHitMe = (event) => {
-    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`
+    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
       console.log(response);
@@ -60,7 +62,7 @@ class App extends React.Component {
       this.setState ({
         clickDraw: true,
         clickHome: false,
-        cardsDrawn: [ ...this.state.cardsDrawn, ...response.data.cards],
+        // cardsDrawn: [ ...this.state.cardsDrawn, ...response.data.cards],
         cardsRemaining: response.data.remaining,
         deckId: response.data.deck_id, //for handleHitMe
         imgURL: [...this.state.imgURL, ...response.data.cards],
@@ -82,6 +84,8 @@ class App extends React.Component {
               <img key={card.code} src={card.image} alt=''/>
             ))}
             handleHitMe={this.handleHitMe}
+            // cardsDrawn={this.state.cardsDrawn}
+            cardsRemaining={this.state.cardsRemaining}
           />
         </React.Fragment>
       )
