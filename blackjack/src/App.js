@@ -39,22 +39,16 @@ class App extends React.Component {
     })
   }
 
-  componentDidMount = (event) => {
-    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
-    axios.get(draw)
-    .then(response => {
-      console.log(response);
+  homePage = () => { //re: secondPage() - Forms homework line 186 and 234
+    return (
+      <React.Fragment>
+        <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+      </React.Fragment>
+    )
+  }
 
-      this.setState ({
-        clickDraw: true,
-        clickHome: false,
-        cardsRemaining: response.data.remaining,
-        event.target.deckId ? ([event.target.deckId]: event.target.value) : (deckId: response.data.deck_id), //for handleHitMe
-        imgURL: response.data.cards,
-        count: 1,
-      })
-    })
-    .catch(error => console.log('Error: ', error))
+  componentDidMount = (event) => {
+    this.homePage();
   }
 
   handleNewGame = (event) => {
@@ -132,13 +126,13 @@ class App extends React.Component {
     } else if (clickHome && clickDraw){
       return (
         <React.Fragment>
-          <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+          {this.homePage()}
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
-          <Menu handleNewGame={this.handleNewGame} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+          {this.homePage()}
         </React.Fragment>
       )
     }
