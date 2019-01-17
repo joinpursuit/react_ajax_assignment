@@ -6,7 +6,7 @@ const Menu = (props) => {
         <h1>Blackjack</h1>
         <input type='button' value='Generate New Deck' onClick={props.handleNewGame}/>
         <input type='text' name='deckId' placeholder='Deck ID'/>
-        <input type='button' value='Join Existing Game' onClick={props.handleNewGame}/>
+        <input type='button' value='Join Existing Game' onClick={props.handleJoinGame}/>
       </React.Fragment>
     )
 

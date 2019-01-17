@@ -20,6 +20,7 @@ class App extends React.Component {
     }
 
     this.handleNewGame = this.handleNewGame.bind(this)
+    this.handleJoinGame = this.handleJoinGame.bind(this)
     this.handleHome = this.handleHome.bind(this)
     this.handleHitMe = this.handleHitMe.bind(this)
   }
@@ -38,6 +39,24 @@ class App extends React.Component {
     })
   }
 
+  componentDidMount = (event) => {
+    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
+    axios.get(draw)
+    .then(response => {
+      console.log(response);
+
+      this.setState ({
+        clickDraw: true,
+        clickHome: false,
+        cardsRemaining: response.data.remaining,
+        event.target.deckId ? ([event.target.deckId]: event.target.value) : (deckId: response.data.deck_id), //for handleHitMe
+        imgURL: response.data.cards,
+        count: 1,
+      })
+    })
+    .catch(error => console.log('Error: ', error))
+  }
+
   handleNewGame = (event) => {
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
@@ -52,11 +71,28 @@ class App extends React.Component {
         imgURL: response.data.cards,
         count: 1,
       })
-
     })
     .catch(error => console.log('Error: ', error))
-
   }
+
+  handleJoinGame = (event) => {
+    const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
+    axios.get(draw)
+    .then(response => {
+      console.log(response);
+
+      this.setState ({
+        clickDraw: true,
+        clickHome: false,
+        cardsRemaining: response.data.remaining,
+        [event.target.deckId]: event.target.value, //for handleHitMe
+        imgURL: response.data.cards,
+        count: 1,
+      })
+    })
+    .catch(error => console.log('Error: ', error))
+  }
+
 
   handleHitMe = (event) => {
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
@@ -70,11 +106,11 @@ class App extends React.Component {
         cardsRemaining: response.data.remaining,
         deckId: response.data.deck_id, //for handleHitMe
         imgURL: [...this.state.imgURL, ...response.data.cards],
-
       })
     })
     .catch(error => console.log('Error: ', error))
   }
+
 
   render() {
     const {clickDraw, clickHome} = this.state
@@ -96,7 +132,7 @@ class App extends React.Component {
     } else if (clickHome && clickDraw){
       return (
         <React.Fragment>
-          <Menu handleNewGame={this.handleNewGame} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+          <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
         </React.Fragment>
       )
     } else {
