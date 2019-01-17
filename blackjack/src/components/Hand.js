@@ -5,7 +5,6 @@ export const Hand = ({deckId, imgURL, cardsDrawn, cardsRemaining, handleHome, ha
     <React.Fragment>
       <h1>Blackjack</h1>
       DECK ID: {deckId} <br/>
-      // CARDS DRAWN: {cardsDrawn}
       CARDS REMAINING: {cardsRemaining} <br/>
 
       <input type='button'onClick={handleHitMe} value='Hit me'/>
