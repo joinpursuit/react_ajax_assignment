@@ -42,9 +42,16 @@ class App extends React.Component {
   homePage = () => { //re: secondPage() - Forms homework line 186 and 234
     return (
       <React.Fragment>
-        <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+        <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} handleChange={this.handleChange} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
       </React.Fragment>
     )
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+    // debugger
   }
 
   componentDidMount = (event) => {
@@ -70,6 +77,9 @@ class App extends React.Component {
   }
 
   handleJoinGame = (event) => {
+    this.setState ({
+      deckId: event.target.value,
+    })
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
@@ -79,7 +89,7 @@ class App extends React.Component {
         clickDraw: true,
         clickHome: false,
         cardsRemaining: response.data.remaining,
-        [event.target.deckId]: event.target.value, //for handleHitMe
+        // deckId: event.target.value, //for handleHitMe
         imgURL: response.data.cards,
         count: 1,
       })
