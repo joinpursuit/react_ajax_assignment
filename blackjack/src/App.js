@@ -27,17 +27,19 @@ class App extends React.Component {
 
 
   componentDidMount = (event) => { //re: secondPage() - Forms homework line 186 and 234
-    axios.get(`https://deckofcardsapi.com/api/deck/new/draw/?count=${this.state.count}`)
-    .then(response => {
-      console.log('axios response', response);
-      console.log('deckid', this.state.deckId);
 
-      this.setState ({
-        cardsRemaining: response.data.remaining,
-        deckId: response.data.deck_id, //for handleHitMe
+      axios.get(`https://deckofcardsapi.com/api/deck/new/draw/?count=${this.state.count}`)
+      .then(response => {
+        console.log('axios response', response);
+        console.log('deckid', this.state.deckId);
+
+        this.setState ({
+          cardsRemaining: response.data.remaining,
+          deckId: response.data.deck_id, //for handleHitMe
+        })
       })
-    })
-    .catch(error => console.log('Error: ', error))
+      .catch(error => console.log('Error: ', error))
+    
   }
 
   homePage = () => {
@@ -58,10 +60,6 @@ class App extends React.Component {
   }
 
   handleNewGame = (event) => {
-    // this.setState ({
-    //   deckId: 'new',
-    // })
-
     const draw = `https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=${this.state.count}`
     axios.get(draw)
     .then(response => {
@@ -72,7 +70,7 @@ class App extends React.Component {
         clickDraw: true,
         clickHome: false,
         cardsRemaining: response.data.remaining,
-        deckId: response.data.deck_id, //for handleHitMe
+        deckId: response.data.deck_id,
         imgURL: response.data.cards,
         count: 1,
       })
