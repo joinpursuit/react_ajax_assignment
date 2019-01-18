@@ -11,6 +11,7 @@ class App extends React.Component {
     super();
     this.state = {
       deckId: '',
+      textInput: '',
       cardsRemaining: [],
       preGameMenu: null,
       imgURL: [],
@@ -39,13 +40,13 @@ class App extends React.Component {
         })
       })
       .catch(error => console.log('Error: ', error))
-    
+
   }
 
   homePage = () => {
     return (
       <React.Fragment>
-        <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} handleChange={this.handleChange} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
+        <Menu handleNewGame={this.handleNewGame} handleJoinGame={this.handleJoinGame} handleChange={this.handleChange} textInput={this.state.textInput} deckId={this.state.deckId} cardsDrawn={this.state.cardsDrawn}/>
       </React.Fragment>
     )
   }
