@@ -1,8 +1,19 @@
 import React from 'react';
 
-const Hand = (props) => {
+const Hand = props => {
+
   return (
-    <input type='text' placeholder='Type in Deck ID to Join And Existing Game' />
+    <>
+      <form onSubmit={props.handleSubmit}>
+        <input 
+          type='text'
+          onChange={props.handleChange}
+          value={props.textInput}
+          placeholder='Please type in deck_id to start.'
+        />
+        <button type='submit'>Confirm To Join A Game</button>
+      </form>
+    </>
   )
 }
 
