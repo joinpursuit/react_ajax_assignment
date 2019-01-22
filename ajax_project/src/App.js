@@ -11,32 +11,61 @@ class App extends Component {
       deckId: '',
       gameOn: false,
       drawnCards: [],
-      cardValueSum: 0,
-      busted: false
+      cardValueSum: 0
     }
   }
+
+  organizeAces = () => {
+    const { drawnCards } = this.state;
+    let aceArr = []
+    let regularArr = []
+
+    drawnCards.forEach(card => {
+      if (card.value === 'ACE') {
+        aceArr.push(card);
+      } else {
+        regularArr.push(card);
+      }
+    });
+
+    return regularArr.concat(aceArr)
+  }
+
+  resetGame = () => {
+    this.setState({
+      deckId: '',
+      gameOn: false,
+      drawnCards: [],
+      cardValueSum: 0
+    })
+  }
   
-    checkForBust = () => {
-      let { cardValueSum, drawnCards, gameOn } = this.state
-      
-      if (gameOn) {
-      drawnCards.forEach(card => {
-        if (card.value === 'JACK' || card.value === 'KING' || card.value === 'QUEEN') {
-          this.setState({ cardValueSum: cardValueSum + 10 })
-        } else if (card.value === 'ACE' && cardValueSum > 10) {
-          this.setState({ cardValueSum: cardValueSum + 1 })
-        } else if (card.value === 'ACE' && cardValueSum < 10) {
-          this.setState({ cardValueSum: cardValueSum + 11 })
-        } else {
-          let cardValueInt = parseInt(card.value)
-          this.setState({ cardValueSum: cardValueSum + cardValueInt })
-        }
-      });
+  cardSum = () => {
+    let { cardValueSum, gameOn} = this.state
+    let newSum = 0;
+    let organizedArr = this.organizeAces();
+    console.log(organizedArr)
+    if (gameOn && !(cardValueSum >= 21)) {
+        organizedArr.forEach(card => {
+          if (card.value === 'JACK' || card.value === 'KING' || card.value === 'QUEEN') {
+            newSum += 10;
+          } else if (card.value === 'ACE' && newSum > 10) {
+            newSum += 1;
+          } else if (card.value === 'ACE' && newSum < 10) {
+            newSum += 11;
+          } else {
+            let cardValueInt = parseInt(card.value)
+            newSum += cardValueInt;
+          }
+        });
       }
-      if (cardValueSum > 21) {
-        this.setState({ busted: true })
-      }
-    }
+
+      this.setState({
+        cardValueSum: newSum
+      })
+
+  }
+
   
   startNewGame = (event) => {
     event.preventDefault();
@@ -54,10 +83,11 @@ class App extends Component {
           drawnCards: response.data.cards
         })
         })
+        .then(() => {
+          this.cardSum();
+        })
     })
-    .catch(err => {
-      console.log('Error fetching cards!')
-    })
+  
   };
 
   joinExistingGame = (event) => {
@@ -69,7 +99,9 @@ class App extends Component {
         gameOn: true,
         drawnCards: response.data.cards
       })
-      this.checkForBust();
+    })
+    .then(() => {
+      this.cardSum();    
     })
     .catch(err => {
       console.log('Error fetching cards!')
@@ -78,6 +110,8 @@ class App extends Component {
 
   hitMe = (event) => {
     event.preventDefault();
+
+    if (!this.state.busted) {
     axios
     .get(`https://deckofcardsapi.com/api/deck/${this.state.deckId}/draw/?count=1`)
     .then(response => {
@@ -86,11 +120,16 @@ class App extends Component {
       this.setState({
         drawnCards: newCards
       })
-      this.checkForBust();
+    })
+    .then(() => {
+      this.cardSum();
+     
     })
     .catch(err => {
       console.log('Error fetching cards!')
     })
+    }
+    
   };
 
   handleSelectChange = (event) => {
@@ -100,7 +139,8 @@ class App extends Component {
   };
   
   render () {
-      const { deckId, gameOn, drawnCards } = this.state;
+      const { deckId, gameOn, drawnCards, cardValueSum } = this.state;
+   console.log(this.state)
     if (gameOn) {
       return (
         <React.Fragment>
@@ -110,6 +150,8 @@ class App extends Component {
         gameOn={ gameOn }
         drawnCards={ drawnCards }
         hitMe={ this.hitMe }
+        cardValueSum={ cardValueSum }
+        resetGame={ this.resetGame }
         />
         </React.Fragment>
       )

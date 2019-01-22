@@ -5,7 +5,7 @@ const Menu = ({ deckId, handleSelectChange, joinExistingGame, startNewGame }) =>
    return (
        <React.Fragment>
 
-           <h2>Menu</h2>
+           <h2 className='menu'>Menu</h2>
 
            <div className='newGame'>
             <h4>Create new game</h4>
