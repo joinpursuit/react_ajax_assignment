@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -29,4 +29,85 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+body {
+
+  background: green;
+}
+.App {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  grid-template-rows: 150px 100px 1fr;
+}
+
+.titleBlackjack {
+  grid-row: 1;
+  grid-column: 2;
+  font-family: fantasy;
+  font-size: 50px;
+  width: 100%;
+  margin-left: 10px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+/* Menu Component */
+
+.menuButtonsAndInputDiv {
+  grid-column: ;
+  margin: 10px;
+  /* flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; */
+}
+
+.menuButtons {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.menuButtons: hover {
+  background-color: yellow;
+  border-radius: 5px;
+}
+
+.menuInput {
+  height: 20px;
+  width: 150px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+/* Hand Component */
+.handPTags {
+  padding: 10px;
+  font-weight: bold;
+}
+
+.handButtons{
+  font-size: 20px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.handButtons:hover{
+  background-color: yellow;
+  font-family: fantasy;
+  color: green;
+  border-radius: 5px;
+  /* border-style: outset; */
+}
+
+/* Card Display in Hand Component*/
+
+.handCardDisplay
+
+img {
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+img:hover {
+  width: 250px;
 }

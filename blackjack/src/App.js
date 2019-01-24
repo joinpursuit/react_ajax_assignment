@@ -74,6 +74,7 @@ class App extends React.Component {
         deckId: response.data.deck_id,
         imgURL: response.data.cards,
         count: 1,
+        textInput: '',
       })
     })
     .catch(error => console.log('Error: ', error))
@@ -96,6 +97,7 @@ class App extends React.Component {
         deckId: this.state.deckId, //for handleHitMe
         imgURL: response.data.cards,
         count: 1,
+        textInput: '',
       })
     })
     .catch(error => console.log('Error: ', error))
