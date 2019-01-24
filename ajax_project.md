@@ -1,3 +1,5 @@
+(referenced: notesJS+HTML/class01142019-componentLifeCyCle, exercise/forms_1, warmup/class01112019/movies, random-slacknotes/xavier/blackjack-01152019/index4, random-slacknotes/xavier/blackjack-01152019/App.js, )
+
 # Blackjack
 
 We are back with our old friend the [Deck of Cards API](https://deckofcardsapi.com/). Today, we're going to try to play blackjack with each other on our computers.
