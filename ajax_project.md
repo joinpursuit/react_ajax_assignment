@@ -1,3 +1,5 @@
+(referenced: notesJS+HTML/class01142019-componentLifeCyCle, exercise/forms_1, warmup/class01112019/movies, random-slacknotes/xavier/blackjack-01152019/index4, random-slacknotes/xavier/blackjack-01152019/App.js, )
+
 # Blackjack
 
 We are back with our old friend the [Deck of Cards API](https://deckofcardsapi.com/). Today, we're going to try to play blackjack with each other on our computers.
@@ -16,7 +18,7 @@ After submitting this information, you should see two cards- this is your hand. 
 
 So, we _could_ do this with one component handling everything. That's... fine. However, if you want to do three components (`App`, `Menu`, and `Hand`, perhaps), that's also fine!
 
-We anticipate you having to hold at least 3 parts of state: One to hold your deck ID from the API, one to hold the cards that you draw from your AJAX requests, and one to control what is rendered to the user- the pre-game menu or the game itself.
+We anticipate you having to hold at least 3 parts of state: *One to hold your deck ID* from the API, *one to hold the cards that you draw* from your AJAX requests, and *one to control what is rendered to the user* - the pre-game menu or the game itself.
 
 This state should be stored in `App`, with `Menu` and `Hand` accepting props and updating `App`'s state as necessary. In other words, `App` will be a stateful component, whereas `Menu` and `Hand` will be presentational.
 
